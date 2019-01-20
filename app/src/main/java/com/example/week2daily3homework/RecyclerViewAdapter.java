@@ -1,5 +1,7 @@
 package com.example.week2daily3homework;
 
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -37,15 +39,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             String type = animal.getType();
             String sound = animal.getSound();
             int resourceId = animal.getImage();
+            String pop = Integer.toString(animal.getPopulation());
 
             viewHolder.setItemAnimal(animal);
             viewHolder.tvName.setText(name);
             viewHolder.tvType.setText(type);
             viewHolder.tvSound.setText(sound);
             viewHolder.imgImage.setImageResource(resourceId);
-            //viewHolder.imgImage.setImageResource(R.drawable.image);
-            //viewHolder.imgImage.setImageDrawable(image);
-            //Glide.with(viewHolder.itemView).load("https://images.freeimages.com/images/large-previews/25d/eagle-1523807.jpg").into(viewHolder.imgImage);
+            viewHolder.tvPop.setText(pop);
         }
     }
 
@@ -59,6 +60,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView tvType;
         TextView tvName;
         TextView tvSound;
+        TextView tvPop;
         Animal itemAnimal;
 
         public ViewHolder(@NonNull final View itemView) {
@@ -67,11 +69,16 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             tvType = itemView.findViewById(R.id.tvType);
             tvName = itemView.findViewById(R.id.tvName);
             tvSound = itemView.findViewById(R.id.tvSound);
+            tvPop = itemView.findViewById(R.id.tvPopulation);
 
             itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
-                    Toast.makeText(view.getContext(), itemAnimal.getName(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(view.getContext(), DisplayActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("animal", itemAnimal);
+                    intent.putExtras(bundle);
+                    view.getContext().startActivity(intent);
                 }
             });
         }

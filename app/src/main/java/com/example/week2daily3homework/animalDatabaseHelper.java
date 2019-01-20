@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import static com.example.week2daily3homework.DatabaseConstants.DATABASE_NAME;
 import static com.example.week2daily3homework.DatabaseConstants.DATABASE_VERSION;
 import static com.example.week2daily3homework.DatabaseConstants.FIELD_NAME;
+import static com.example.week2daily3homework.DatabaseConstants.FIELD_POPULATION;
 import static com.example.week2daily3homework.DatabaseConstants.FIELD_SOUND;
 import static com.example.week2daily3homework.DatabaseConstants.FIELD_TYPE;
 import static com.example.week2daily3homework.DatabaseConstants.IMAGE_RESOURCE_ID;
@@ -30,37 +31,42 @@ public class animalDatabaseHelper extends SQLiteOpenHelper {
                 + FIELD_NAME + " TEXT PRIMARY KEY, "
                 + FIELD_TYPE + " TEXT, "
                 + FIELD_SOUND + " TEXT, "
+                + FIELD_POPULATION + " TEXT, "
                 + IMAGE_RESOURCE_ID + " INTEGER);";
         db.execSQL(createQuery);
-        Animal animal = new Animal("Mammal", "Human", "Talk", R.drawable.human);
+        Animal animal = new Animal("Mammal", "Human", "Talk", R.drawable.human, 5);
         ContentValues content = new ContentValues();
         content.put(FIELD_NAME, animal.getName());
         content.put(FIELD_TYPE, animal.getType());
         content.put(FIELD_SOUND, animal.getSound());
+        content.put(FIELD_POPULATION, animal.getPopulation());
         content.put(IMAGE_RESOURCE_ID, animal.getImage());
         db.insert(TABLE_NAME, null, content);
 
-        animal = new Animal("Mammal", "Cat", "Meow", R.drawable.cat);
+        animal = new Animal("Mammal", "Cat", "Meow", R.drawable.cat, 2);
         content = new ContentValues();
         content.put(FIELD_NAME, animal.getName());
         content.put(FIELD_TYPE, animal.getType());
         content.put(FIELD_SOUND, animal.getSound());
+        content.put(FIELD_POPULATION, animal.getPopulation());
         content.put(IMAGE_RESOURCE_ID, animal.getImage());
         db.insert(TABLE_NAME, null, content);
 
-        animal = new Animal("Reptile", "Snake", "Hiss", R.drawable.snake);
+        animal = new Animal("Reptile", "Snake", "Hiss", R.drawable.snake, 1);
         content = new ContentValues();
         content.put(FIELD_NAME, animal.getName());
         content.put(FIELD_TYPE, animal.getType());
         content.put(FIELD_SOUND, animal.getSound());
+        content.put(FIELD_POPULATION, animal.getPopulation());
         content.put(IMAGE_RESOURCE_ID, animal.getImage());
         db.insert(TABLE_NAME, null, content);
 
-        animal = new Animal("Fish", "Shark", "None", R.drawable.shark);
+        animal = new Animal("Fish", "Shark", "None", R.drawable.shark, 4);
         content = new ContentValues();
         content.put(FIELD_NAME, animal.getName());
         content.put(FIELD_TYPE, animal.getType());
         content.put(FIELD_SOUND, animal.getSound());
+        content.put(FIELD_POPULATION, animal.getPopulation());
         content.put(IMAGE_RESOURCE_ID, animal.getImage());
         db.insert(TABLE_NAME, null, content);
 
@@ -80,11 +86,13 @@ public class animalDatabaseHelper extends SQLiteOpenHelper {
             String name = animal.getName();
             String sound = animal.getSound();
             int resourceId = animal.getImage();
+            int population = animal.getPopulation();
 
             contentValues.put(FIELD_NAME, name);
             contentValues.put(FIELD_TYPE, type);
             contentValues.put(FIELD_SOUND, sound);
             contentValues.put(IMAGE_RESOURCE_ID, resourceId);
+            contentValues.put(FIELD_POPULATION, population);
 
             database.insert(TABLE_NAME, null,contentValues);
         }
@@ -102,7 +110,8 @@ public class animalDatabaseHelper extends SQLiteOpenHelper {
                 String name = cursor.getString(cursor.getColumnIndex(FIELD_NAME));
                 String sound = cursor.getString(cursor.getColumnIndex(FIELD_SOUND));
                 int resourceId = Integer.parseInt(cursor.getString(cursor.getColumnIndex(IMAGE_RESOURCE_ID)));
-                arrayList.add(new Animal(type, name, sound, resourceId));
+                int population = Integer.parseInt(cursor.getString(cursor.getColumnIndex(FIELD_POPULATION)));
+                arrayList.add(new Animal(type, name, sound, resourceId, population));
             } while(cursor.moveToNext());
             return arrayList;
         } else {
@@ -122,7 +131,8 @@ public class animalDatabaseHelper extends SQLiteOpenHelper {
                 String type = cursor.getString(cursor.getColumnIndex(FIELD_TYPE));
                 String sound = cursor.getString(cursor.getColumnIndex(FIELD_SOUND));
                 int resourceId = Integer.parseInt(cursor.getString(cursor.getColumnIndex(IMAGE_RESOURCE_ID)));
-                returnAnimal = new Animal(type, name, sound, resourceId);
+                int population = Integer.parseInt(cursor.getString(cursor.getColumnIndex(FIELD_POPULATION)));
+                returnAnimal = new Animal(type, name, sound, resourceId, population);
             }
             cursor.close();
         }
@@ -144,6 +154,7 @@ public class animalDatabaseHelper extends SQLiteOpenHelper {
             contentValues.put(FIELD_TYPE, passedAnimal.getType());
             contentValues.put(FIELD_SOUND, passedAnimal.getSound());
             contentValues.put(IMAGE_RESOURCE_ID, String.valueOf(passedAnimal.getImage()));
+            contentValues.put(FIELD_POPULATION, passedAnimal.getPopulation());
             return sqLiteDatabase.update(TABLE_NAME, contentValues, whereClause, null);
         }
         return 0;

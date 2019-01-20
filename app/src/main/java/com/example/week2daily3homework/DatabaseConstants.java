@@ -8,4 +8,5 @@ public class DatabaseConstants {
     public static final String FIELD_NAME = "name";
     public static final String FIELD_SOUND = "sound";
     public static final String IMAGE_RESOURCE_ID = "image_resource_id";
+    public static final String FIELD_POPULATION = "population";
 }
